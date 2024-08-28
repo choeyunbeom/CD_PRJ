@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center; 
+        align-items: center;     
+        min-height: 100vh;       
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      .chart-container {
+        display: flex;
+        justify-content: space-around; 
+        width: 90%; 
+      }
+      .chart {
+        width: 45%;  
+      }
+      .bar-chart {
+        height: 500px; 
+      }
+      .pie-chart {
+        height: 300px; 
+      }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+      <div class="chart bar-chart">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="chart pie-chart">
+        <canvas id="rateChart"></canvas>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: {{ label_list|safe }},
+          datasets: [{
+            label: '장소별 범죄현황',
+            data: {{ data_list }},
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              ticks: {
+                autoSkip: false, 
+                maxRotation: 90, 
+                minRotation: 45, 
+                font: {
+                  size: 12 
+                }
+              },
+              grid: {
+                display: false 
+              }
+            },
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // JSON 형식으로 전달된 category_rates를 JavaScript 객체로 변환
+      const categoryRates = JSON.parse('{{ category_rates|escapejs }}');
+
+      
+      const categories = ['살인', '강간·강제추행', '강도', '절도', '폭력'];
+      const backgroundColors = [
+        'rgba(255, 99, 132, 0.6)',   
+        'rgba(255, 159, 64, 0.6)',   
+        'rgba(255, 205, 86, 0.6)',   
+        'rgba(75, 192, 192, 0.6)',   
+        'rgba(153, 102, 255, 0.6)'  
+      ];
+      const borderColors = [
+        'rgb(255, 99, 132)',   
+        'rgb(255, 159, 64)',   
+        'rgb(255, 205, 86)',   
+        'rgb(75, 192, 192)',   
+        'rgb(153, 102, 255)'  
+      ];
+
+      const rateCtx = document.getElementById('rateChart').getContext('2d');
+      new Chart(rateCtx, {
+        type: 'doughnut',
+        data: {
+          labels: categories,
+          datasets: [{
+            label: '범죄 유형 비율',
+            data: categories.map(category => categoryRates[category] || 0),
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+    </script>
+</body>
+</html>

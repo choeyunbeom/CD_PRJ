@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>post_add</title>
+    </head>
+    <body>
+        <div>
+            <h1><a href="/">게시글 추가</a></h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+                {{ form.as_p }}
+                <button type="submit">작성</button>
+            </form>
+        </div>
+    </body>
+</html>

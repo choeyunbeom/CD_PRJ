@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>게시글 수정</title>
+    <h1>게시글 수정페이지입니다.</h1>
+</html>
+    <body>
+        <nav>
+            <h1>게시물 수정</h1>
+        </nav>
+        <div id="post-add">
+            <h1>Post Edit</h1>
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit">게시</button>
+            </form>
+        </div>
+    </body>
+    </html>

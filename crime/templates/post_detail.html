@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title>게시글별 상세페이지</title>
+    </head>
+    <body>
+        <div>
+            <h1>게시글 상세페이지입니다.</h1>
+            <!-- {% if user == post.user %} -->
+            <a href="">글수정</a>
+            <a href="">글삭제</a>
+            <!-- {% endif %} -->
+        </div>
+        <div>
+                <h1>글제목: {{ post.title }}</h1>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" atl="게시글 이미지">
+            {% endif %}
+            <p>{{ post.content }}</p>
+        </div>
+    </body>
+</html>
