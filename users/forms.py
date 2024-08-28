@@ -28,7 +28,7 @@ class SignupForm(forms.Form):
         username = self.cleaned_data["username"]
 
         if User.objects.filter(username=username).exists():
-            raise ValidationError("f({username})은 이미 사용중입니다")
+            raise ValidationError(f"입력한 사용자명({username})은 이미 사용중입니다")
         
         return username
     

@@ -19,12 +19,13 @@ def login_view(request):
 
             if user:
                 auth.login(request, user)
-                return redirect("users:test")
+                return redirect("crime:landing")
             else:
                 form.add_error(None,"정보가 없습니다")
 
         context = {"form":form}
         return render(request, "login.html", context)
+
 
     else:
         form = LoginForm()
@@ -73,14 +74,14 @@ def logout_view(request):
     #     return redirect('home')
     # return render(request,'signup.html')
 
-def signup(request):
+def sign_up(request):
     if request.method == "POST":
         form = SignupForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
                 user = form.save()
-                signup(request, user)
-                return redirect("/crime/")
+                login(request, user)
+                return redirect("/")
         else:
                 context = {"form": form}
                 return render(request,"signup.html", context)
